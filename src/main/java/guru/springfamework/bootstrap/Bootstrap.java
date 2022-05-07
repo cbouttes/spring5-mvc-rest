@@ -1,7 +1,10 @@
 package guru.springfamework.bootstrap;
 
+import guru.springfamework.api.v1.model.CustomerDTO;
 import guru.springfamework.domain.Category;
+import guru.springfamework.domain.Customer;
 import guru.springfamework.repositories.CategoryRepository;
+import guru.springfamework.repositories.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +16,11 @@ public class Bootstrap implements CommandLineRunner{
 
     private CategoryRepository categoryRespository;
 
-    public Bootstrap(CategoryRepository categoryRespository) {
+    private CustomerRepository customerRepository;
+
+    public Bootstrap(CategoryRepository categoryRespository, CustomerRepository customerRepository) {
         this.categoryRespository = categoryRespository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -40,8 +46,22 @@ public class Bootstrap implements CommandLineRunner{
         categoryRespository.save(exotic);
         categoryRespository.save(nuts);
 
+        System.out.println("Data Category Loaded = " + categoryRespository.count() );
 
-        System.out.println("Data Loaded = " + categoryRespository.count() );
+        Customer customerBL = new Customer();
+        customerBL.setId(Long.valueOf(1));
+        customerBL.setFirstname("Bob");
+        customerBL.setLastname("Leponge");
+
+        Customer customerCT = new Customer();
+        customerCT.setId(Long.valueOf(2));
+        customerCT.setFirstname("Carlo");
+        customerCT.setLastname("Tentacule");
+
+        customerRepository.save(customerBL);
+        customerRepository.save(customerCT);
+
+        System.out.println("Data Customer Loaded = " + customerRepository.count() );
 
     }
 }
