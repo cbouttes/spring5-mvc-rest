@@ -7,16 +7,22 @@ import guru.springfamework.domain.Vendor;
 import guru.springfamework.services.VendorService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static guru.springfamework.controllers.v1.AbstractRestControllerTest.asJsonString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
@@ -33,17 +39,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by mance on 12/05/2022.
  */
-public class VendorControllerTest extends AbstractRestControllerTest {
+@RunWith(SpringRunner.class)
+@WebMvcTest(controllers = {VendorController.class})
+public class VendorControllerTest {
 
     private static String NAME1 = "Toto";
     private static String NAME2 = "Tata";
 
-    @Mock
+    @MockBean //provided by Spring Context
     VendorService vendorService;
 
-    @InjectMocks
-    VendorController vendorController;
-
+    @Autowired
     MockMvc mockMvc;
 
     VendorDTO vendorDTO1;
@@ -57,9 +63,6 @@ public class VendorControllerTest extends AbstractRestControllerTest {
         vendorDTO2 = new VendorDTO();
         vendorDTO2.setName("Titi");
         vendorDTO2.setVendorUrl(VendorController.BASE_URL.concat("/2"));
-
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(vendorController).setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
     }
 
     @Test
