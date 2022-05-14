@@ -59,6 +59,16 @@ public class VendorServiceImplIT {
 
     @Test
     public void getVendors() {
+
+        //Given
+        //Bootstrap load data
+
+        //When
+        List<Vendor> vendors = vendorRepository.findAll();
+
+        //Then
+        assertEquals(2, vendors.size());
+
     }
 
     @Test
