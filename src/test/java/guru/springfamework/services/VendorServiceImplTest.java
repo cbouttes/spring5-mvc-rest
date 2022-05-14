@@ -73,22 +73,6 @@ public class VendorServiceImplTest extends TestCase {
 
     }
 
-    /**@Test(expected = ResourceNotFoundException.class)
-    public void testGetVendorByIdNotFound() throws Exception {
-
-        //Given
-        //setUp() initialize vendor1 et vendor2
-        given(vendorRepository.findById(anyLong())).willReturn(Optional.empty());
-
-        //When
-        VendorDTO returnVendorDTO = vendorService.getVendorById(1L);
-
-        //Then
-        //assertNull(returnVendorDTO);
-        then(vendorRepository).should(times(1)).findById(anyLong());
-
-    }*/
-
     @Test(expected = ResourceNotFoundException.class)
     public void testGetVendorByIdNotFound() throws Exception {
         //given
