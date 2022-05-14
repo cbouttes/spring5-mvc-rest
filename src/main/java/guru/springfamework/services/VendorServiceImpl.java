@@ -80,7 +80,7 @@ public class VendorServiceImpl implements VendorService {
 
     @Override
     public void deleteVendorById(Long id) {
-        vendorRepository.delete(vendorRepository.findById(id).orElseThrow(ResourceNotFoundException::new));
+        vendorRepository.deleteById(id);
     }
 
     private VendorDTO saveAndReturnDTO(Vendor vendor) {

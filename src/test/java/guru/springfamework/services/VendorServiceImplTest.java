@@ -6,6 +6,8 @@ import guru.springfamework.api.v1.model.VendorListDTO;
 import guru.springfamework.domain.Vendor;
 import guru.springfamework.repositories.VendorRepository;
 import junit.framework.TestCase;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.IsEqual;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -15,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -27,7 +31,7 @@ import static org.mockito.Mockito.*;
 /**
  * Created by mance on 12/05/2022.
  */
-public class VendorServiceImplTest extends TestCase {
+public class VendorServiceImplTest {
 
     public static final String NAME1 = "Toto";
     public static final String NAME2 = "Titi";
@@ -68,7 +72,8 @@ public class VendorServiceImplTest extends TestCase {
 
         //Then
         assertNotNull(vendorDTOS);
-        assertEquals(2, vendorDTOS.size());
+        //assertEquals(2, vendorDTOS.size());
+        assertThat(vendorDTOS.size(), Matchers.is(equalTo(2)));
         then(vendorRepository).should(times(1)).findAll();
 
     }
@@ -101,7 +106,8 @@ public class VendorServiceImplTest extends TestCase {
 
         //Then / Alors (la vérification des résultats)
         assertNotNull(vendorDTO);
-        assertEquals(NAME1, vendorDTO.getName());
+        //assertEquals(NAME1, vendorDTO.getName());
+        assertThat(vendorDTO.getName(),is(equalTo(NAME1)));
         //Equivalent de :
         //JUnit Assert that with matchers
         assertThat(vendorDTO.getName(), is(equalTo(NAME1)));
@@ -126,8 +132,10 @@ public class VendorServiceImplTest extends TestCase {
         VendorDTO returnVendorDTO = vendorService.createNewVendor(vendorToCreateDTO);
         //Then
         assertNotNull(returnVendorDTO);
-        assertEquals("Tata", returnVendorDTO.getName());
-        assertEquals("/api/v1/vendors/".concat(vendorToCreate.getId().toString()), returnVendorDTO.getVendorUrl());
+        //assertEquals("Tata", returnVendorDTO.getName());
+        assertThat(returnVendorDTO.getName(), is(equalTo("Tata")));
+        //assertEquals("/api/v1/vendors/".concat(vendorToCreate.getId().toString()), returnVendorDTO.getVendorUrl());
+        assertThat(returnVendorDTO.getVendorUrl(), is(equalTo("/api/v1/vendors/".concat(vendorToCreate.getId().toString()))));
         then(vendorRepository).should(times(1)).save(any(Vendor.class));
 
     }
@@ -147,8 +155,10 @@ public class VendorServiceImplTest extends TestCase {
 
         //Then
         assertNotNull(returnVendorDTO);
-        assertEquals(vendorToSave.getName(), returnVendorDTO.getName());
-        assertEquals("/api/v1/vendors/".concat(vendorToSave.getId().toString()), returnVendorDTO.getVendorUrl());
+        //assertEquals(vendorToSave.getName(), returnVendorDTO.getName());
+        assertThat(vendorToSave.getName(), is(equalTo(returnVendorDTO.getName())));
+        //assertEquals("/api/v1/vendors/".concat(vendorToSave.getId().toString()), returnVendorDTO.getVendorUrl());
+        assertThat(returnVendorDTO.getVendorUrl(), is(equalTo("/api/v1/vendors/".concat(vendorToSave.getId().toString()))));
         then(vendorRepository).should(times(1)).findById(anyLong());
         then(vendorRepository).should(times(1)).save(any(Vendor.class));
     }
@@ -168,8 +178,10 @@ public class VendorServiceImplTest extends TestCase {
 
         //Then
         assertNotNull(returnVendorDTO);
-        assertEquals(vendorToPatch.getName(), returnVendorDTO.getName());
-        assertEquals("/api/v1/vendors/".concat(vendorToPatch.getId().toString()), returnVendorDTO.getVendorUrl());
+        //assertEquals(vendorToPatch.getName(), returnVendorDTO.getName());
+        assertThat(vendorToPatch.getName(), is(equalTo(returnVendorDTO.getName())));
+        //assertEquals("/api/v1/vendors/".concat(vendorToPatch.getId().toString()), returnVendorDTO.getVendorUrl());
+        assertThat(returnVendorDTO.getVendorUrl(), is(equalTo("/api/v1/vendors/".concat(vendorToPatch.getId().toString()))));
         then(vendorRepository).should(times(1)).findById(anyLong());
         then(vendorRepository).should(times(1)).save(any(Vendor.class));
 
